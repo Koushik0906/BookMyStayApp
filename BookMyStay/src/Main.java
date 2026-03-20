@@ -1,24 +1,27 @@
+import java.util.HashMap;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Hotel Booking Application - Inventory System");
+        System.out.println("Hotel Booking Application - Room Search");
 
-        // initialize inventory
+        // inventory
         RoomInventory inventory = new RoomInventory();
-
-        // register room types
         inventory.addRoom("Standard Room", 10);
-        inventory.addRoom("Deluxe Room", 5);
+        inventory.addRoom("Deluxe Room", 0);   // unavailable
         inventory.addRoom("Suite Room", 2);
 
-        // display inventory
-        inventory.displayInventory();
+        // room details
+        HashMap<String, Room> roomDetails = new HashMap<>();
+        roomDetails.put("Standard Room", new Room("Standard Room", 2000));
+        roomDetails.put("Deluxe Room", new Room("Deluxe Room", 4000));
+        roomDetails.put("Suite Room", new Room("Suite Room", 7000));
 
-        // update availability (example booking)
-        inventory.updateAvailability("Standard Room", 8);
+        // search service
+        SearchService searchService = new SearchService();
 
-        System.out.println("\nAfter Booking Update:");
-        inventory.displayInventory();
+        // perform search
+        searchService.searchAvailableRooms(inventory, roomDetails);
     }
 }
