@@ -1,41 +1,24 @@
-import java.util.HashMap;
-
 class RoomInventory {
 
-    private HashMap<String, Integer> inventory;
+    private HashMap<String, Integer> inventory = new HashMap<>();
 
-    // constructor
-    public RoomInventory() {
-        inventory = new HashMap<>();
+    public synchronized void addRoom(String type, int count) {
+        inventory.put(type, count);
     }
 
-    // add room type
-    public void addRoom(String roomType, int count) {
-        inventory.put(roomType, count);
+    public synchronized int getAvailability(String type) {
+        return inventory.getOrDefault(type, 0);
     }
 
-    // get availability
-    public int getAvailability(String roomType) {
-        return inventory.getOrDefault(roomType, 0);
-    }
+    public synchronized boolean allocateRoom(String type) {
 
-    // update availability
-    public void updateAvailability(String roomType, int newCount) {
-        inventory.put(roomType, newCount);
-    }
+        int count = inventory.getOrDefault(type, 0);
 
-    public void decrementRoom(String roomType) {
-        int count = inventory.getOrDefault(roomType, 0);
         if (count > 0) {
-            inventory.put(roomType, count - 1);
+            inventory.put(type, count - 1);
+            return true;
         }
-    }
 
-    // display all rooms
-    public void displayInventory() {
-        System.out.println("\nCurrent Room Inventory:");
-        for (String roomType : inventory.keySet()) {
-            System.out.println(roomType + " → Available: " + inventory.get(roomType));
-        }
+        return false;
     }
 }

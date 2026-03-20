@@ -1,22 +1,23 @@
-import java.util.*;
-
 public class Main {
 
     public static void main(String[] args) {
 
         RoomInventory inventory = new RoomInventory();
-        inventory.addRoom("Standard Room", 1);
+        inventory.addRoom("Standard Room", 1); // only ONE room
 
-        Queue<Reservation> queue = new LinkedList<>();
+        // multiple users trying at same time
+        Thread t1 = new Thread(new BookingTask(
+                new Reservation("Alice", "Standard Room"), inventory));
 
-        queue.add(new Reservation("Alice", "Standard Room"));  // valid
-        queue.add(new Reservation("", "Standard Room"));       // invalid name
-        queue.add(new Reservation("Bob", "Deluxe Room"));      // invalid type
-        queue.add(new Reservation("Charlie", "Standard Room")); // no availability
+        Thread t2 = new Thread(new BookingTask(
+                new Reservation("Bob", "Standard Room"), inventory));
 
-        BookingHistory history = new BookingHistory();
+        Thread t3 = new Thread(new BookingTask(
+                new Reservation("Charlie", "Standard Room"), inventory));
 
-        BookingService service = new BookingService();
-        service.processBookings(queue, inventory, history);
+        // start threads
+        t1.start();
+        t2.start();
+        t3.start();
     }
 }
