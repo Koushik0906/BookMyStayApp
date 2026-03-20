@@ -2,16 +2,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Welcome to Hotel Booking Application\n");
+        System.out.println("Hotel Booking Application - Inventory System");
 
-        // create room objects
-        Room standard = new StandardRoom(10);
-        Room deluxe = new DeluxeRoom(5);
-        Room suite = new SuiteRoom(2);
+        // initialize inventory
+        RoomInventory inventory = new RoomInventory();
 
-        // display details
-        standard.displayDetails();
-        deluxe.displayDetails();
-        suite.displayDetails();
+        // register room types
+        inventory.addRoom("Standard Room", 10);
+        inventory.addRoom("Deluxe Room", 5);
+        inventory.addRoom("Suite Room", 2);
+
+        // display inventory
+        inventory.displayInventory();
+
+        // update availability (example booking)
+        inventory.updateAvailability("Standard Room", 8);
+
+        System.out.println("\nAfter Booking Update:");
+        inventory.displayInventory();
     }
 }
