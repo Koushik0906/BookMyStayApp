@@ -1,16 +1,9 @@
-abstract class Room {
-
+class Room {
     String type;
     int price;
-    int availableRooms;
 
-    // constructor
-    Room(String type, int price, int availableRooms) {
+    Room(String type, int price) {
         this.type = type;
         this.price = price;
-        this.availableRooms = availableRooms;
     }
-
-    // abstract method
-    abstract void displayDetails();
 }
