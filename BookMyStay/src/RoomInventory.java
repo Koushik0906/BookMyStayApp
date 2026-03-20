@@ -24,6 +24,13 @@ class RoomInventory {
         inventory.put(roomType, newCount);
     }
 
+    public void decrementRoom(String roomType) {
+        int count = inventory.getOrDefault(roomType, 0);
+        if (count > 0) {
+            inventory.put(roomType, count - 1);
+        }
+    }
+
     // display all rooms
     public void displayInventory() {
         System.out.println("\nCurrent Room Inventory:");
