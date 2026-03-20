@@ -4,26 +4,23 @@ public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Add-On Services Demo");
+        RoomInventory inventory = new RoomInventory();
+        inventory.addRoom("Standard Room", 2);
+        inventory.addRoom("Deluxe Room", 1);
 
-        AddOnServiceManager manager = new AddOnServiceManager();
+        Queue<Reservation> queue = new LinkedList<>();
+        queue.add(new Reservation("Alice", "Standard Room"));
+        queue.add(new Reservation("Bob", "Standard Room"));
+        queue.add(new Reservation("Charlie", "Deluxe Room"));
 
-        String reservationId = "STA1";
+        BookingHistory history = new BookingHistory();
 
-        // create services
-        List<AddOnService> services = new ArrayList<>();
-        services.add(new AddOnService("Breakfast", 500));
-        services.add(new AddOnService("WiFi", 200));
-        services.add(new AddOnService("Airport Pickup", 1000));
+        BookingService service = new BookingService();
+        service.processBookings(queue, inventory, history);
 
-        // add to reservation
-        manager.addServices(reservationId, services);
+        BookingReportService reportService = new BookingReportService();
 
-        // display
-        manager.displayServices(reservationId);
-
-        // total cost
-        int total = manager.calculateTotalCost(reservationId);
-        System.out.println("Total Add-On Cost: ₹" + total);
+        reportService.showAllBookings(history);
+        reportService.generateSummary(history);
     }
 }
