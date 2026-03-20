@@ -1,17 +1,29 @@
+import java.util.*;
+
 public class Main {
 
     public static void main(String[] args) {
 
-        System.out.println("Hotel Booking - Request Queue System");
+        System.out.println("Add-On Services Demo");
 
-        BookingRequestQueue requestQueue = new BookingRequestQueue();
+        AddOnServiceManager manager = new AddOnServiceManager();
 
-        // guest submits requests
-        requestQueue.addRequest(new Reservation("Alice", "Standard Room"));
-        requestQueue.addRequest(new Reservation("Bob", "Deluxe Room"));
-        requestQueue.addRequest(new Reservation("Charlie", "Suite Room"));
+        String reservationId = "STA1";
 
-        // display queue
-        requestQueue.displayRequests();
+        // create services
+        List<AddOnService> services = new ArrayList<>();
+        services.add(new AddOnService("Breakfast", 500));
+        services.add(new AddOnService("WiFi", 200));
+        services.add(new AddOnService("Airport Pickup", 1000));
+
+        // add to reservation
+        manager.addServices(reservationId, services);
+
+        // display
+        manager.displayServices(reservationId);
+
+        // total cost
+        int total = manager.calculateTotalCost(reservationId);
+        System.out.println("Total Add-On Cost: ₹" + total);
     }
 }
