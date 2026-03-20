@@ -38,4 +38,10 @@ class RoomInventory {
             System.out.println(roomType + " → Available: " + inventory.get(roomType));
         }
     }
+
+    public void incrementRoom(String roomType) {
+        int count = inventory.getOrDefault(roomType, 0);
+        inventory.put(roomType, count + 1);
+    }
+
 }
