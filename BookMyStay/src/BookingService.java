@@ -1,10 +1,9 @@
-import java.util.HashSet;
-import java.util.Queue;
-
 class BookingService {
 
     private HashSet<String> allocatedRoomIds = new HashSet<>();
     private int roomCounter = 1;
+
+    private BookingValidator validator = new BookingValidator();
 
     public void processBookings(Queue<Reservation> queue,
                                 RoomInventory inventory,
@@ -14,10 +13,11 @@ class BookingService {
 
             Reservation request = queue.poll();
 
-            String roomType = request.roomType;
-            int available = inventory.getAvailability(roomType);
+            try {
+                // ✅ validate first
+                validator.validate(request, inventory);
 
-            if (available > 0) {
+                String roomType = request.roomType;
 
                 String roomId = roomType.substring(0, 3).toUpperCase() + roomCounter++;
 
@@ -27,15 +27,15 @@ class BookingService {
 
                 request.setRoomId(roomId);
 
-                // ✅ store in history
                 history.addReservation(request);
 
                 System.out.println("Booking Confirmed for " + request.guestName);
 
-            } else {
-                System.out.println("Booking Failed for " + request.guestName);
+            } catch (InvalidBookingException e) {
+
+                // ✅ graceful failure
+                System.out.println("Booking Failed: " + e.getMessage());
             }
         }
     }
-
 }
